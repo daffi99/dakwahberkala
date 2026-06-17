@@ -2,6 +2,8 @@ import ArticleFeed from '@/app/components/ArticleFeed'
 import { getArticles } from '@/lib/supabase'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const articles = await getArticles()
   return (

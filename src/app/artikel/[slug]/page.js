@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { getArticleBySlug, getAllSlugs } from '@/lib/supabase'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 export async function generateStaticParams() {
   return getAllSlugs()
 }
