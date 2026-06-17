@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dakwah Berkala — arsip ilmu Islam yang terstruktur, ringkas, dan dapat dipercaya. Belajar agama pelan-pelan tapi rutin." />
+  <title>Dakwah Berkala — Arsip Ilmu Islam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+    ============================================ */
+    :root {
+      --bg:         #FAF7F0;
+      --primary:    #0F766E;
+      --dark-green: #0B4F49;
+      --soft-green: #E6F4F1;
+      --gold:       #C8A24A;
+      --gold-light: #FBF4E4;
+      --card:       #FFFFFF;
+      --arabic-card:#F8F1E7;
+      --border:     #E7DED0;
+      --text:       #1F2933;
+      --muted:      #6B7280;
+      --radius-sm:  8px;
+      --radius-md:  14px;
+      --radius-lg:  20px;
+      --shadow-sm:  0 1px 4px rgba(15,118,110,0.07), 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md:  0 4px 16px rgba(15,118,110,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      --font-main:  'Plus Jakarta Sans', sans-serif;
+      --font-arabic:'Amiri', 'Noto Naskh Arabic', serif;
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      /* Constrain to mobile-feel on desktop */
+      max-width: 430px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* ============================================
+       STICKY HEADER
+    ============================================ */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,247,240,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header__logo {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--dark-green) 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(15,118,110,0.3);
+    }
+
+    .header__logo-text {
+      font-family: var(--font-arabic);
+      font-size: 14px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header__brand {
+      flex: 1;
+    }
+
+    .header__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark-green);
+      line-height: 1.2;
+    }
+
+    .header__subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .header__actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--soft-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+      outline: none;
+    }
+
+    .icon-btn svg { width: 18px; height: 18px; stroke: var(--primary); }
+
+    /* ============================================
+       MAIN CONTENT
+    ============================================ */
+    .main {
+      padding-bottom: 80px; /* space for bottom nav */
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    .hero {
+      background: linear-gradient(160deg, var(--dark-green) 0%, var(--primary) 60%, #1a8a81 100%);
+      padding: 36px 20px 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      left: -20px;
+      width: 140px;
+      height: 140px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+
+    .hero__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.9);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .hero__tag-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .hero__title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .hero__subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .search-bar {
+      background: #fff;
+      border-radius: 14px;
+      padding: 4px 4px 4px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .search-bar svg { width: 18px; height: 18px; stroke: var(--muted); flex-shrink: 0; }
+
+    .search-bar input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: var(--font-main);
+      font-size: 14px;
+      color: var(--text);
+      background: transparent;
+      padding: 8px 0;
+    }
+
+    .search-bar input::placeholder { color: var(--muted); }
+
+    .search-bar__btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-family: var(--font-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ============================================
+       TOPIC CHIPS
+    ============================================ */
+    .chips-section {
+      padding: 20px 0 4px;
+    }
+
+    .chips-section__label {
+      padding: 0 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    .chips-scroll {
+      display: flex;
+      gap: 8px;
+      padding: 0 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-bottom: 4px;
+    }
+
+    .chips-scroll::-webkit-scrollbar { display: none; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 30px;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .chip--active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .chip__icon {
+      font-size: 14px;
+    }
+
+    /* ============================================
+       SECTION HEADER
+    ============================================ */
+    .section {
+      padding: 24px 20px 0;
+    }
+
+    .section__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section__title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section__link {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* ============================================
+       CATEGORY GRID
+    ============================================ */
+    .category-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .category-card {
+      background: var(--card);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .category-card__icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .category-card__body {}
+
+    .category-card__name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .category-card__count {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Category color themes */
+    .cat--aqidah .category-card__icon  { background: #EFF8FF; }
+    .cat--fiqih   .category-card__icon { background: var(--soft-green); }
+    .cat--shalat  .category-card__icon { background: #FDF3E7; }
+    .cat--puasa   .category-card__icon { background: #F3F0FF; }
+    .cat--keluarga .category-card__icon{ background: #FFF0F3; }
+    .cat--adab    .category-card__icon { background: #F0FFF4; }
+
+    /* ============================================
+       POPULAR TOPIC CARDS
+    ============================================ */
+    .cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .topic-card {
+      background: var(--card);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .topic-card__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .badge--green  { background: var(--soft-green); color: var(--primary); }
+    .badge--gold   { background: var(--gold-light); color: #a07c24; }
+    .badge--blue   { background: #EFF6FF; color: #2563EB; }
+    .badge--purple { background: #F5F3FF; color: #7C3AED; }
+    .badge--red    { background: #FEF2F2; color: #DC2626; }
+    .badge--gray   { background: #F3F4F6; color: var(--muted); }
+
+    .topic-card__rank {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .topic-card__title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .topic-card__summary {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .topic-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .topic-card__meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .topic-card__meta-item svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--muted);
+    }
+
+    .btn-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--soft-green);
+      color: var(--primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 16px;
+      font-family: var(--font-main);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-read svg { width: 14px; height: 14px; stroke: var(--primary); }
+
+    /* ============================================
+       ARTICLE DETAIL SECTION
+    ============================================ */
+    .article-section {
+      padding: 28px 20px 0;
+    }
+
+    .article-section__header-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .article-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .article-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* ---- Kesimpulan Cepat ---- */
+    .quick-summary {
+      background: linear-gradient(135deg, #FBF8EE 0%, #FDF6E3 100%);
+      border: 1.5px solid rgba(200,162,74,0.35);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .quick-summary__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .quick-summary__icon {
+      width: 30px;
+      height: 30px;
+      background: var(--gold);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .quick-summary__label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #8a6520;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quick-summary__list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-summary__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .quick-summary__bullet {
+      width: 18px;
+      height: 18px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #fff;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ---- Section headings inside article ---- */
+    .sub-heading {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark-green);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sub-heading::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ---- Ringkasan Pendapat ---- */
+    .opinion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .opinion-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .opinion-item__bar {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 8px 0 0 8px;
+    }
+
+    .opinion-item__bar--halal    { background: #22c55e; }
+    .opinion-item__bar--haram    { background: #ef4444; }
+    .opinion-item__bar--khilaf   { background: var(--gold); }
+
+    .opinion-item__school {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .opinion-item__view {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .opinion-item__detail {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ---- Arabic Evidence Card ---- */
+    .arabic-card {
+      background: var(--arabic-card);
+      border: 1px solid rgba(200,162,74,0.25);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .arabic-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .arabic-card__text {
+      font-family: var(--font-arabic);
+      font-size: 22px;
+      line-height: 1.9;
+      text-align: right;
+      direction: rtl;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
+
+    .arabic-card__source {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ---- Terjemahan ---- */
+    .translation-box {
+      background: var(--soft-green);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+    }
+
+    .translation-box__label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+
+    .translation-box__text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ---- Sikap Praktis ---- */
+    .practical-box {
+      background: var(--card);
+      border: 1.5px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .practical-box__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .practical-box__icon {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .practical-box__title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .practical-box__text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ---- Sumber Rujukan ---- */
+    .sources-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .source-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .source-item__num {
+      width: 24px;
+      height: 24px;
+      background: var(--soft-green);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .source-item__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .source-item__author {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ---- Ask AI Box ---- */
+    .ask-ai {
+      background: linear-gradient(135deg, #0B4F49 0%, var(--primary) 100%);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .ask-ai__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .ask-ai__icon {
+      width: 34px;
+      height: 34px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .ask-ai__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .ask-ai__subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .ask-ai__input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ask-ai__input {
+      flex: 1;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: var(--font-main);
+      font-size: 13px;
+      color: #fff;
+      outline: none;
+    }
+
+    .ask-ai__input::placeholder { color: rgba(255,255,255,0.5); }
+
+    .ask-ai__send {
+      background: var(--gold);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ask-ai__send svg { width: 16px; height: 16px; stroke: #fff; }
+
+    /* ============================================
+       BOTTOM NAVIGATION
+    ============================================ */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 8px 0 12px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 4px 0;
+      text-decoration: none;
+    }
+
+    .nav-item__icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item__icon svg { width: 22px; height: 22px; stroke: var(--muted); }
+
+    .nav-item__label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+    }
+
+    .nav-item--active .nav-item__icon svg { stroke: var(--primary); }
+    .nav-item--active .nav-item__label     { color: var(--primary); }
+
+    .nav-item--active .nav-item__icon {
+      background: var(--soft-green);
+      border-radius: 10px;
+    }
+
+    /* AI nav item */
+    .nav-item--ai .nav-item__icon {
+      background: var(--primary);
+      border-radius: 14px;
+      width: 40px;
+      height: 34px;
+    }
+    .nav-item--ai .nav-item__icon svg { stroke: #fff; width: 18px; height: 18px; }
+    .nav-item--ai .nav-item__label    { color: var(--primary); }
+
+    /* ============================================
+       UTILITY
+    ============================================ */
+    .mt-4  { margin-top: 16px; }
+    .mt-6  { margin-top: 24px; }
+    .pb-4  { padding-bottom: 16px; }
+
+    .section-divider {
+      height: 8px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 24px 0 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       STICKY HEADER
+  ============================================== -->
+  <header class="header" id="header">
+    <div class="header__logo">
+      <span class="header__logo-text">دب</span>
+    </div>
+    <div class="header__brand">
+      <div class="header__title">Dakwah Berkala</div>
+      <div class="header__subtitle">Arsip Ilmu Islam Terstruktur</div>
+    </div>
+    <div class="header__actions">
+      <button class="icon-btn" aria-label="Cari topik">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Menu">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- =============================================
+       MAIN CONTENT
+  ============================================== -->
+  <main class="main" id="main">
+
+    <!-- 1. HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__tag">
+        <span class="hero__tag-dot"></span>
+        Arsip Privat · Terstruktur · Terpercaya
+      </div>
+      <h1 class="hero__title">Belajar agama,<br>pelan-pelan<br>tapi rutin.</h1>
+      <p class="hero__subtitle">Ringkasan ilmu fiqih dan aqidah dari sumber terpercaya,<br>disusun rapi untuk dipelajari kapan saja.</p>
+      <div class="search-bar" role="search">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Cari topik, misal: zakat, shalat..." id="main-search" aria-label="Cari topik" />
+        <button class="search-bar__btn">Cari</button>
+      </div>
+    </section>
+
+    <!-- 2. TOPIC CHIPS -->
+    <section class="chips-section" id="topic-chips">
+      <div class="chips-section__label">🔥 Topik Populer</div>
+      <div class="chips-scroll">
+        <div class="chip chip--active" id="chip-maulid">
+          <span class="chip__icon">🌙</span> Hukum Maulid
+        </div>
+        <div class="chip" id="chip-dhuha">
+          <span class="chip__icon">🕌</span> Shalat Dhuha
+        </div>
+        <div class="chip" id="chip-riba">
+          <span class="chip__icon">💳</span> Riba Cicilan
+        </div>
+        <div class="chip" id="chip-zakat">
+          <span class="chip__icon">💰</span> Zakat Penghasilan
+        </div>
+        <div class="chip" id="chip-adab">
+          <span class="chip__icon">🤝</span> Adab Harian
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CATEGORY GRID -->
+    <section class="section" id="categories">
+      <div class="section__header">
+        <h2 class="section__title">Kategori</h2>
+        <a href="#" class="section__link">Lihat semua →</a>
+      </div>
+      <div class="category-grid">
+        <a href="#" class="category-card cat--aqidah" id="cat-aqidah">
+          <div class="category-card__icon">🌟</div>
+          <div class="category-card__body">
+            <div class="category-card__name">Aqidah</div>
+            <div class="category-card__count">24 topik</div>
+          </div>
+        </a>
+        <a href="#" class="category-card cat--fiqih" id="cat-fiqih">
+          <div class="category-card__icon">⚖️</div>
+          <div class="category-card__body">
+            <div class="category-card__name">Fiqih</div>
+            <div class="category-card__count">48 topik</div>
+          </div>
+        </a>
+        <a href="#" class="category-card cat--shalat" id="cat-shalat">
+          <div class="category-card__icon">🕌</div>
+          <div class="category-card__body">
+            <div class="category-card__name">Shalat</div>
+            <div class="category-card__count">31 topik</div>
+          </div>
+        </a>
+        <a href="#" class="category-card cat--puasa" id="cat-puasa">
+          <div class="category-card__icon">🌙</div>
+          <div class="category-card__body">
+            <div class="category-card__name">Puasa</div>
+            <div class="category-card__count">19 topik</div>
+          </div>
+        </a>
+        <a href="#" class="category-card cat--keluarga" id="cat-keluarga">
+          <div class="category-card__icon">👨‍👩‍👧</div>
+          <div class="category-card__body">
+            <div class="category-card__name">Keluarga</div>
+            <div class="category-card__count">27 topik</div>
+          </div>
+        </a>
+        <a href="#" class="category-card cat--adab" id="cat-adab">
+          <div class="category-card__icon">📖</div>
+          <div class="category-card__body">
+            <div class="category-card__name">Adab</div>
+            <div class="category-card__count">22 topik</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. POPULAR TOPICS -->
+    <section class="section" id="popular-topics" style="padding-top:28px;">
+      <div class="section__header">
+        <h2 class="section__title">Topik Populer</h2>
+        <a href="#" class="section__link">Semua →</a>
+      </div>
+      <div class="cards-list">
+
+        <!-- Card 1 -->
+        <article class="topic-card" id="card-maulid">
+          <div class="topic-card__top">
+            <div class="badges">
+              <span class="badge badge--green">Fiqih</span>
+              <span class="badge badge--gold">Khilafiyah</span>
+            </div>
+            <span class="topic-card__rank">#1</span>
+          </div>
+          <h3 class="topic-card__title">Hukum Maulid Nabi ﷺ</h3>
+          <p class="topic-card__summary">Perayaan Maulid adalah masalah yang diperselisihkan ulama. Sebagian membolehkan sebagai syiar kegembiraan, sebagian lain melarang karena termasuk bid'ah.</p>
+          <div class="topic-card__meta">
+            <div class="topic-card__meta-item">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              8 sumber
+            </div>
+            <div class="topic-card__meta-item">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Diperbarui Jan 2025
+            </div>
+          </div>
+          <a href="#article-detail" class="btn-read" id="btn-maulid">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Baca Ringkasan
+          </a>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="topic-card" id="card-dhuha">
+          <div class="topic-card__top">
+            <div class="badges">
+              <span class="badge badge--green">Shalat</span>
+              <span class="badge badge--blue">Sunnah</span>
+            </div>
+            <span class="topic-card__rank">#2</span>
+          </div>
+          <h3 class="topic-card__title">Shalat Dhuha: Tata Cara &amp; Waktu</h3>
+          <p class="topic-card__summary">Shalat Dhuha adalah sunnah muakkadah yang dikerjakan antara terbit matahari hingga sebelum dzuhur. Jumlah rakaat minimal dua, maksimal delapan.</p>
+          <div class="topic-card__meta">
+            <div class="topic-card__meta-item">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              6 sumber
+            </div>
+            <div class="topic-card__meta-item">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Diperbarui Mar 2025
+            </div>
+          </div>
+          <a href="#" class="btn-read" id="btn-dhuha">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Baca Ringkasan
+          </a>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="topic-card" id="card-riba">
+          <div class="topic-card__top">
+            <div class="badges">
+              <span class="badge badge--green">Fiqih</span>
+              <span class="badge badge--red">Kontroversial</span>
+            </div>
+            <span class="topic-card__rank">#3</span>
+          </div>
+          <h3 class="topic-card__title">Riba dalam Cicilan KPR/KTA</h3>
+          <p class="topic-card__summary">Ulama sepakat riba haram, namun berbeda dalam mendefinisikan apakah bunga bank konvensional termasuk riba. Ada yang melarang mutlak, ada yang membolehkan saat darurat.</p>
+          <div class="topic-card__meta">
+            <div class="topic-card__meta-item">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              11 sumber
+            </div>
+            <div class="topic-card__meta-item">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Diperbarui Feb 2025
+            </div>
+          </div>
+          <a href="#" class="btn-read" id="btn-riba">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Baca Ringkasan
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION DIVIDER -->
+    <div class="section-divider"></div>
+
+    <!-- 5. ARTICLE DETAIL: HUKUM MAULID NABI -->
+    <section class="article-section" id="article-detail">
+      <div class="article-section__header-label">📄 Ringkasan Artikel</div>
+      <h2 class="article-title">Hukum Merayakan Maulid Nabi ﷺ</h2>
+      <div class="article-badges">
+        <span class="badge badge--green">Fiqih</span>
+        <span class="badge badge--gold">Khilafiyah</span>
+        <span class="badge badge--gray">8 Sumber</span>
+      </div>
+
+      <!-- Kesimpulan Cepat -->
+      <div class="quick-summary" id="kesimpulan-cepat">
+        <div class="quick-summary__header">
+          <div class="quick-summary__icon">⚡</div>
+          <div class="quick-summary__label">Kesimpulan Cepat</div>
+        </div>
+        <ul class="quick-summary__list">
+          <li class="quick-summary__item">
+            <span class="quick-summary__bullet">1</span>
+            <span>Masalah ini termasuk <strong>khilafiyah</strong> — ulama berbeda pendapat secara sah.</span>
+          </li>
+          <li class="quick-summary__item">
+            <span class="quick-summary__bullet">2</span>
+            <span>Ulama yang <strong>membolehkan</strong>: Imam Suyuthi, Ibnu Hajar, ulama Syafi'iyyah mayoritas.</span>
+          </li>
+          <li class="quick-summary__item">
+            <span class="quick-summary__bullet">3</span>
+            <span>Ulama yang <strong>melarang</strong>: Ibnu Taimiyyah, Ibnu Utsaimin, ulama Salafi/Wahabi.</span>
+          </li>
+          <li class="quick-summary__item">
+            <span class="quick-summary__bullet">4</span>
+            <span>Kunci: niat, konten acara, dan menghindari <strong>ghuluw</strong> (berlebih-lebihan).</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Ringkasan Pendapat -->
+      <h3 class="sub-heading">Ringkasan Pendapat Ulama</h3>
+      <div class="opinion-list" id="ringkasan-pendapat">
+
+        <div class="opinion-item">
+          <div class="opinion-item__bar opinion-item__bar--halal"></div>
+          <div class="opinion-item__school">Pendapat 1 — Boleh (Mubah/Mustahab)</div>
+          <div class="opinion-item__view">Membolehkan dengan syarat</div>
+          <div class="opinion-item__detail">Imam Suyuthi, Ibnu Hajar al-Asqalani, dan ulama Syafi'iyyah umumnya membolehkan perayaan Maulid selama isinya berupa shalawat, pembacaan sirah, dan zikir — tanpa kemungkaran.</div>
+        </div>
+
+        <div class="opinion-item">
+          <div class="opinion-item__bar opinion-item__bar--haram"></div>
+          <div class="opinion-item__school">Pendapat 2 — Bid'ah (Dilarang)</div>
+          <div class="opinion-item__view">Melarang sebagai bid'ah mardudah</div>
+          <div class="opinion-item__detail">Ibnu Taimiyyah, Ibnu Katsir, dan ulama kontemporer Salafi melarangnya karena tidak ada dasar dari Nabi ﷺ dan para sahabat, sehingga termasuk bid'ah yang harus ditinggalkan.</div>
+        </div>
+
+        <div class="opinion-item">
+          <div class="opinion-item__bar opinion-item__bar--khilaf"></div>
+          <div class="opinion-item__school">Pendapat 3 — Tergantung Pelaksanaan</div>
+          <div class="opinion-item__view">Boleh jika kontennya baik, haram jika ada kemungkaran</div>
+          <div class="opinion-item__detail">Sebagian ulama pertengahan seperti Syaikh Ramadhan al-Buthi berpendapat bahwa hukumnya bergantung pada konten dan cara pelaksanaannya.</div>
+        </div>
+
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Arabic Evidence -->
+      <h3 class="sub-heading">Dalil &amp; Referensi</h3>
+      <div class="arabic-card" id="arabic-evidence">
+        <div class="arabic-card__label">Hadits — Bukhari &amp; Muslim</div>
+        <div class="arabic-card__text" lang="ar" dir="rtl">
+          عَنْ عَائِشَةَ رَضِيَ اللَّهُ عَنْهَا قَالَتْ:<br>
+          قَالَ رَسُولُ اللَّهِ ﷺ:<br>
+          «مَنْ أَحْدَثَ فِي أَمْرِنَا هَذَا مَا لَيْسَ مِنْهُ فَهُوَ رَدٌّ»
+        </div>
+        <div class="arabic-card__source">HR. Bukhari no. 2697 & Muslim no. 1718</div>
+      </div>
+
+      <!-- Terjemahan -->
+      <div class="translation-box" id="terjemahan">
+        <div class="translation-box__label">🌐 Terjemahan</div>
+        <div class="translation-box__text">
+          "Barangsiapa yang mengada-adakan dalam urusan (agama) kami ini sesuatu yang tidak ada dasarnya, maka ia tertolak."<br>
+          <span style="font-size:12px; color: var(--muted); margin-top:4px; display:block;">— HR. Bukhari no. 2697 &amp; Muslim no. 1718</span>
+        </div>
+      </div>
+
+      <div class="arabic-card" style="margin-bottom:20px;">
+        <div class="arabic-card__label">Al-Qur'an — QS. Al-Ahzab: 56</div>
+        <div class="arabic-card__text" lang="ar" dir="rtl">
+          إِنَّ اللَّهَ وَمَلَائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ ۚ يَا أَيُّهَا الَّذِينَ آمَنُوا صَلُّوا عَلَيْهِ وَسَلِّمُوا تَسْلِيمًا
+        </div>
+        <div class="arabic-card__source">QS. Al-Ahzab [33]: 56 — Digunakan oleh ulama pendukung maulid sebagai dasar kecintaan kepada Nabi.</div>
+      </div>
+
+      <div class="translation-box" style="margin-bottom:20px;">
+        <div class="translation-box__label">🌐 Terjemahan</div>
+        <div class="translation-box__text">
+          "Sesungguhnya Allah dan para malaikat-Nya bershalawat untuk Nabi. Hai orang-orang yang beriman, bershalawatlah kalian untuk Nabi dan ucapkanlah salam penghormatan kepadanya."
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Sikap Praktis -->
+      <div class="practical-box" id="sikap-praktis">
+        <div class="practical-box__header">
+          <div class="practical-box__icon">🧭</div>
+          <div class="practical-box__title">Sikap Praktis yang Dianjurkan</div>
+        </div>
+        <div class="practical-box__text">
+          <p style="margin-bottom:10px;">Karena ini masalah <em>khilafiyah</em>, sikap yang bijak adalah:</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px;">
+            <li style="display:flex; gap:8px; align-items:flex-start;">
+              <span style="color: var(--primary); font-weight:700; flex-shrink:0;">✓</span>
+              <span>Menghormati perbedaan pendapat ulama yang mu'tabar (diakui).</span>
+            </li>
+            <li style="display:flex; gap:8px; align-items:flex-start;">
+              <span style="color: var(--primary); font-weight:700; flex-shrink:0;">✓</span>
+              <span>Jika menghadiri, pastikan acaranya berisi hal-hal yang baik: shalawat, sirah Nabi, pengajian.</span>
+            </li>
+            <li style="display:flex; gap:8px; align-items:flex-start;">
+              <span style="color: var(--primary); font-weight:700; flex-shrink:0;">✓</span>
+              <span>Hindari <em>ghuluw</em> (berlebih-lebihan) seperti pengkultusan yang melampaui batas.</span>
+            </li>
+            <li style="display:flex; gap:8px; align-items:flex-start;">
+              <span style="color: var(--primary); font-weight:700; flex-shrink:0;">✓</span>
+              <span>Jangan menjadikan ini sebagai bahan perpecahan dan saling mengkafirkan.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Sumber Rujukan -->
+      <h3 class="sub-heading">Sumber Rujukan</h3>
+      <div class="sources-list" id="sumber-rujukan">
+        <div class="source-item">
+          <div class="source-item__num">1</div>
+          <div>
+            <div class="source-item__title">Husn al-Maqsid fi Amal al-Mawlid</div>
+            <div class="source-item__author">Imam Jalaluddin as-Suyuthi · Pendukung Maulid</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-item__num">2</div>
+          <div>
+            <div class="source-item__title">Iqtida as-Sirat al-Mustaqim</div>
+            <div class="source-item__author">Ibnu Taimiyyah · Pelarang Maulid</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-item__num">3</div>
+          <div>
+            <div class="source-item__title">al-Ni'mah al-Kubra ala al-Alam fi Mawlid Sayyid Walad Adam</div>
+            <div class="source-item__author">Ibnu Hajar al-Haitami · Pendukung Maulid</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-item__num">4</div>
+          <div>
+            <div class="source-item__title">Fatawa Islamiyyah — Bab Bid'ah</div>
+            <div class="source-item__author">Syaikh Ibnu Utsaimin · Pelarang Maulid</div>
+          </div>
+        </div>
+        <div class="source-item">
+          <div class="source-item__num">5</div>
+          <div>
+            <div class="source-item__title">Fath al-Bari Syarh Shahih al-Bukhari</div>
+            <div class="source-item__author">Ibnu Hajar al-Asqalani · Referensi Hadits</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ask AI — secondary, after all article content -->
+      <div class="ask-ai" id="ask-ai-box">
+        <div class="ask-ai__header">
+          <div class="ask-ai__icon">✨</div>
+          <div class="ask-ai__title">Tanya AI tentang topik ini</div>
+        </div>
+        <p class="ask-ai__subtitle">Punya pertanyaan lanjutan? AI akan membantu berdasarkan sumber yang ada di arsip ini — bukan dari internet umum.</p>
+        <div class="ask-ai__input-row">
+          <input class="ask-ai__input" type="text" placeholder="Tanyakan sesuatu..." id="ai-input" aria-label="Tanya AI" />
+          <button class="ask-ai__send" aria-label="Kirim pertanyaan">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </section>
+    <!-- End Article Detail -->
+
+  </main>
+
+  <!-- =============================================
+       STICKY BOTTOM NAVIGATION
+  ============================================== -->
+  <nav class="bottom-nav" aria-label="Navigasi utama" id="bottom-nav">
+    <a href="#hero" class="nav-item nav-item--active" id="nav-home" aria-label="Beranda">
+      <div class="nav-item__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="#categories" class="nav-item" id="nav-kategori" aria-label="Kategori">
+      <div class="nav-item__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      <span class="nav-item__label">Kategori</span>
+    </a>
+    <a href="#popular-topics" class="nav-item" id="nav-arsip" aria-label="Arsip">
+      <div class="nav-item__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+      </div>
+      <span class="nav-item__label">Arsip</span>
+    </a>
+    <a href="#ask-ai-box" class="nav-item nav-item--ai" id="nav-ai" aria-label="Tanya AI">
+      <div class="nav-item__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <span class="nav-item__label">AI</span>
+    </a>
+  </nav>
+
+</body>
+</html>
