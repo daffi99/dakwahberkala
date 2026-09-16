@@ -1,5 +1,5 @@
 import ArticleFeed from '@/app/components/ArticleFeed'
-import { getArticles } from '@/lib/supabase'
+import { getArticles } from '@/lib/db'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'

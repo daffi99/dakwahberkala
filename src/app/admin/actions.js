@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
-import { supabase, supabaseAdmin, getArticles } from '@/lib/supabase'
+import { sql, getArticles } from '@/lib/db'
 import fs from 'fs'
 import path from 'path'
 
@@ -45,7 +45,7 @@ export async function logoutAction() {
   return { success: true }
 }
 
-// Helpers for local CRUD
+// Helpers for local fallback CRUD
 function getLocalArticles() {
   try {
     const filePath = path.join(process.cwd(), 'src/lib/articles.js')
@@ -147,41 +147,41 @@ export async function createArticleAction(data) {
     slug = 'catatan-' + Math.random().toString(36).substring(2, 7)
   }
 
-  if (supabaseAdmin) {
+  if (sql) {
     try {
-      const { error } = await supabaseAdmin
-        .from('articles')
-        .insert({
-          slug,
-          title,
-          category,
-          badge,
-          badge_style: badgeStyle || 'badge--gray',
-          tldr,
-          cover_gradient: coverGradient || 'linear-gradient(135deg, #0B4F49 0%, #0F766E 50%, #1a8a81 100%)',
-          cover_emoji: coverEmoji,
-          card_bg: cardBg,
-          sources: parseInt(sources) || 0,
-          updated_at: updatedAt,
-          kesimpulan: Array.isArray(kesimpulan) ? kesimpulan : [],
-          pendapat: Array.isArray(pendapat) ? pendapat : [],
-          dalil: Array.isArray(dalil) ? dalil : [],
-          sikap_praktis: Array.isArray(sikapPraktis) ? sikapPraktis : [],
-          sumber: Array.isArray(sumber) ? sumber : [],
-        })
-
-      if (error) {
-        if (error.code === '23505') {
-          return { success: false, error: 'Artikel dengan judul/slug serupa sudah ada.' }
-        }
-        throw error
-      }
+      await sql`
+        INSERT INTO public.articles (
+          slug, title, category, badge, badge_style, tldr,
+          cover_gradient, cover_emoji, card_bg, sources, updated_at,
+          kesimpulan, pendapat, dalil, sikap_praktis, sumber
+        ) VALUES (
+          ${slug},
+          ${title},
+          ${category},
+          ${badge},
+          ${badgeStyle || 'badge--gray'},
+          ${tldr},
+          ${coverGradient || 'linear-gradient(135deg, #0B4F49 0%, #0F766E 50%, #1a8a81 100%)'},
+          ${coverEmoji},
+          ${cardBg},
+          ${parseInt(sources, 10) || 0},
+          ${updatedAt},
+          ${JSON.stringify(Array.isArray(kesimpulan) ? kesimpulan : [])}::jsonb,
+          ${JSON.stringify(Array.isArray(pendapat) ? pendapat : [])}::jsonb,
+          ${JSON.stringify(Array.isArray(dalil) ? dalil : [])}::jsonb,
+          ${JSON.stringify(Array.isArray(sikapPraktis) ? sikapPraktis : [])}::jsonb,
+          ${JSON.stringify(Array.isArray(sumber) ? sumber : [])}::jsonb
+        )
+      `
 
       revalidatePath('/')
       revalidatePath(`/artikel/${slug}`)
       return { success: true, slug }
     } catch (err) {
-      console.error('Error creating article in Supabase:', err)
+      if (err.code === '23505') {
+        return { success: false, error: 'Artikel dengan judul/slug serupa sudah ada.' }
+      }
+      console.error('Error creating article in Neon:', err)
       return { success: false, error: 'Gagal membuat artikel di database: ' + err.message }
     }
   } else {
@@ -201,7 +201,7 @@ export async function createArticleAction(data) {
         coverGradient: coverGradient || 'linear-gradient(135deg, #0B4F49 0%, #0F766E 50%, #1a8a81 100%)',
         coverEmoji,
         cardBg,
-        sources: parseInt(sources) || 0,
+        sources: parseInt(sources, 10) || 0,
         updatedAt,
         kesimpulan,
         pendapat,
@@ -253,38 +253,35 @@ export async function updateArticleAction(oldSlug, data) {
 
   const newSlug = slugify(title)
 
-  if (supabaseAdmin) {
+  if (sql) {
     try {
-      const { error } = await supabaseAdmin
-        .from('articles')
-        .update({
-          slug: newSlug,
-          title,
-          category,
-          badge,
-          badge_style: badgeStyle || 'badge--gray',
-          tldr,
-          cover_gradient: coverGradient || 'linear-gradient(135deg, #0B4F49 0%, #0F766E 50%, #1a8a81 100%)',
-          cover_emoji: coverEmoji,
-          card_bg: cardBg,
-          sources: parseInt(sources) || 0,
-          updated_at: updatedAt,
-          kesimpulan: Array.isArray(kesimpulan) ? kesimpulan : [],
-          pendapat: Array.isArray(pendapat) ? pendapat : [],
-          dalil: Array.isArray(dalil) ? dalil : [],
-          sikap_praktis: Array.isArray(sikapPraktis) ? sikapPraktis : [],
-          sumber: Array.isArray(sumber) ? sumber : [],
-        })
-        .eq('slug', oldSlug)
-
-      if (error) throw error
+      await sql`
+        UPDATE public.articles SET
+          slug = ${newSlug},
+          title = ${title},
+          category = ${category},
+          badge = ${badge},
+          badge_style = ${badgeStyle || 'badge--gray'},
+          tldr = ${tldr},
+          cover_gradient = ${coverGradient || 'linear-gradient(135deg, #0B4F49 0%, #0F766E 50%, #1a8a81 100%)'},
+          cover_emoji = ${coverEmoji},
+          card_bg = ${cardBg},
+          sources = ${parseInt(sources, 10) || 0},
+          updated_at = ${updatedAt},
+          kesimpulan = ${JSON.stringify(Array.isArray(kesimpulan) ? kesimpulan : [])}::jsonb,
+          pendapat = ${JSON.stringify(Array.isArray(pendapat) ? pendapat : [])}::jsonb,
+          dalil = ${JSON.stringify(Array.isArray(dalil) ? dalil : [])}::jsonb,
+          sikap_praktis = ${JSON.stringify(Array.isArray(sikapPraktis) ? sikapPraktis : [])}::jsonb,
+          sumber = ${JSON.stringify(Array.isArray(sumber) ? sumber : [])}::jsonb
+        WHERE slug = ${oldSlug}
+      `
 
       revalidatePath('/')
       revalidatePath(`/artikel/${oldSlug}`)
       revalidatePath(`/artikel/${newSlug}`)
       return { success: true, slug: newSlug }
     } catch (err) {
-      console.error('Error updating article in Supabase:', err)
+      console.error('Error updating article in Neon:', err)
       return { success: false, error: 'Gagal memperbarui artikel di database: ' + err.message }
     }
   } else {
@@ -305,7 +302,7 @@ export async function updateArticleAction(oldSlug, data) {
         coverGradient: coverGradient || 'linear-gradient(135deg, #0B4F49 0%, #0F766E 50%, #1a8a81 100%)',
         coverEmoji,
         cardBg,
-        sources: parseInt(sources) || 0,
+        sources: parseInt(sources, 10) || 0,
         updatedAt,
         kesimpulan,
         pendapat,
@@ -334,20 +331,18 @@ export async function deleteArticleAction(slug) {
     return { success: false, error: 'Sesi Anda tidak sah. Silakan login kembali.' }
   }
 
-  if (supabaseAdmin) {
+  if (sql) {
     try {
-      const { error } = await supabaseAdmin
-        .from('articles')
-        .delete()
-        .eq('slug', slug)
-
-      if (error) throw error
+      await sql`
+        DELETE FROM public.articles
+        WHERE slug = ${slug}
+      `
 
       revalidatePath('/')
       revalidatePath(`/artikel/${slug}`)
       return { success: true }
     } catch (err) {
-      console.error('Error deleting article in Supabase:', err)
+      console.error('Error deleting article in Neon:', err)
       return { success: false, error: 'Gagal menghapus artikel dari database: ' + err.message }
     }
   } else {

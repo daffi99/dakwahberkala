@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getArticleBySlug, getAllSlugs } from '@/lib/supabase'
+import { getArticleBySlug, getAllSlugs } from '@/lib/db'
 import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
