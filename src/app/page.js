@@ -1,6 +1,7 @@
 import ArticleFeed from '@/app/components/ArticleFeed'
 import { getArticles } from '@/lib/db'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,8 +11,15 @@ export default async function Home() {
     <>
       {/* STICKY HEADER */}
       <header className="header" id="header">
-        <div className="header__logo">
-          <span className="header__logo-text">دب</span>
+        <div className="header__logo" style={{ overflow: 'hidden', padding: 0 }}>
+          <Image
+            src="/logo-icon.png"
+            alt="Dakwah Berkala"
+            width={38}
+            height={38}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }}
+            priority
+          />
         </div>
         <div className="header__brand">
           <div className="header__title">Dakwah Berkala</div>
