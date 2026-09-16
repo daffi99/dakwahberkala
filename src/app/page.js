@@ -11,19 +11,15 @@ export default async function Home() {
     <>
       {/* STICKY HEADER */}
       <header className="header" id="header">
-        <div className="header__logo" style={{ overflow: 'hidden', padding: 0 }}>
+        <div className="header__brand" style={{ display: 'flex', alignItems: 'center' }}>
           <Image
-            src="/logo-icon.png"
+            src="/logo-header.png"
             alt="Dakwah Berkala"
-            width={38}
-            height={38}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }}
+            width={140}
+            height={43}
+            style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
             priority
           />
-        </div>
-        <div className="header__brand">
-          <div className="header__title">Dakwah Berkala</div>
-          <div className="header__subtitle">Catatan fiqih pribadi</div>
         </div>
         <div className="header__actions">
           <Link href="/admin" className="icon-btn" aria-label="Admin Dashboard" title="Dashboard Penulis" style={{ display: 'inline-flex' }}>
