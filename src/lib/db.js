@@ -1,7 +1,11 @@
 import { neon } from '@neondatabase/serverless'
 import { articles as fallbackArticles } from './articles'
 
-const databaseUrl = process.env.DATABASE_URL
+let rawUrl = process.env.DATABASE_URL ? process.env.DATABASE_URL.trim() : ''
+if (rawUrl && ((rawUrl.startsWith('"') && rawUrl.endsWith('"')) || (rawUrl.startsWith("'") && rawUrl.endsWith("'")))) {
+  rawUrl = rawUrl.slice(1, -1).trim()
+}
+const databaseUrl = rawUrl
 
 // Initialize Neon SQL driver if DATABASE_URL is configured
 export const sql =
