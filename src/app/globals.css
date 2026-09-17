@@ -49,9 +49,7 @@ body:not(.admin-body) {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250,247,240,0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--bg);
   border-bottom: none;
   padding: 12px 20px;
   display: flex;
@@ -117,9 +115,7 @@ body:not(.admin-body) {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250,247,240,0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding: 12px 20px;
   display: flex;
@@ -262,11 +258,9 @@ body:not(.admin-body) {
 ============================================ */
 .feed-sticky-header {
   position: sticky;
-  top: 62px; /* Sticks right below the main header (logo 38px + padding 12px*2 = 62px) */
+  top: 59px;
   z-index: 90;
-  background: rgba(250, 247, 240, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding-bottom: 14px;
 }
