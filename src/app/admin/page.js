@@ -46,6 +46,7 @@ export default function AdminPage() {
   const [isImportModalOpen, setIsImportModalOpen] = useState(false)
   const [jsonInput, setJsonInput] = useState('')
   const [importError, setImportError] = useState('')
+  const [exportToast, setExportToast] = useState('')
 
   // Form State
   const [title, setTitle] = useState('')
@@ -298,6 +299,79 @@ export default function AdminPage() {
     } catch (err) {
       setImportError('Gagal mengurai JSON: ' + err.message)
     }
+  }
+
+  const handleExportJson = (art) => {
+    const exportData = {
+      title: art.title,
+      category: art.category,
+      badge: art.badge,
+      badgeStyle: art.badgeStyle,
+      tldr: art.tldr,
+      coverEmoji: art.coverEmoji,
+      cardBg: art.cardBg,
+      coverGradient: art.coverGradient,
+      sources: art.sources || 0,
+      updatedAt: art.updatedAt,
+      kesimpulan: art.kesimpulan || [],
+      pendapat: art.pendapat || [],
+      dalil: art.dalil || [],
+      sikapPraktis: art.sikapPraktis || [],
+      sumber: art.sumber || []
+    }
+
+    const jsonString = JSON.stringify(exportData, null, 2)
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${art.slug || 'catatan'}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(jsonString).catch(() => {})
+    }
+
+    setExportToast(`JSON "${art.title}" berhasil di-download!`)
+    setTimeout(() => setExportToast(''), 4000)
+  }
+
+  const handleExportAllJson = () => {
+    if (!articles || articles.length === 0) return
+    const exportData = articles.map((art) => ({
+      title: art.title,
+      category: art.category,
+      badge: art.badge,
+      badgeStyle: art.badgeStyle,
+      tldr: art.tldr,
+      coverEmoji: art.coverEmoji,
+      cardBg: art.cardBg,
+      coverGradient: art.coverGradient,
+      sources: art.sources || 0,
+      updatedAt: art.updatedAt,
+      kesimpulan: art.kesimpulan || [],
+      pendapat: art.pendapat || [],
+      dalil: art.dalil || [],
+      sikapPraktis: art.sikapPraktis || [],
+      sumber: art.sumber || []
+    }))
+
+    const jsonString = JSON.stringify(exportData, null, 2)
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `dakwahberkala-semua-catatan-${new Date().toISOString().slice(0, 10)}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    setExportToast(`Semua (${articles.length}) catatan berhasil di-export ke JSON!`)
+    setTimeout(() => setExportToast(''), 4000)
   }
 
   const handleDeleteArticle = (slug, articleTitle) => {
@@ -1167,15 +1241,16 @@ export default function AdminPage() {
         </div>
       ) : (
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '12px', padding: '24px' }}>
-          {/* SEARCH BAR */}
-          <div style={{ marginBottom: '20px' }}>
+          {/* SEARCH BAR & EXPORT ALL */}
+          <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
             <input
               type="text"
               placeholder="Cari catatan berdasarkan judul atau kategori..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
-                width: '100%',
+                flex: 1,
+                minWidth: '240px',
                 padding: '12px',
                 borderRadius: '8px',
                 border: '1.5px solid var(--border)',
@@ -1185,6 +1260,33 @@ export default function AdminPage() {
                 background: '#fff'
               }}
             />
+            {articles.length > 0 && (
+              <button
+                type="button"
+                onClick={handleExportAllJson}
+                title="Download backup seluruh catatan dalam 1 file JSON"
+                style={{
+                  padding: '11px 16px',
+                  border: '1.5px solid #0284c7',
+                  borderRadius: '8px',
+                  background: '#f0f9ff',
+                  color: '#0369a1',
+                  fontWeight: 600,
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-main)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" style={{ width: 15, height: 15 }}>
+                  <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export Semua JSON ({articles.length})
+              </button>
+            )}
           </div>
 
           {listLoading ? (
@@ -1216,7 +1318,9 @@ export default function AdminPage() {
                     background: '#fff',
                     border: '1px solid var(--border)',
                     borderRadius: '12px',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+                    flexWrap: 'wrap',
+                    gap: '12px'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -1238,8 +1342,33 @@ export default function AdminPage() {
                       </div>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                     <button
+                      type="button"
+                      onClick={() => handleExportJson(art)}
+                      title="Export catatan ini ke file JSON"
+                      style={{
+                        padding: '8px 12px',
+                        border: '1.5px solid #0284c7',
+                        borderRadius: '8px',
+                        background: 'transparent',
+                        color: '#0284c7',
+                        fontWeight: 600,
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-main)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px'
+                      }}
+                    >
+                      <svg fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" style={{ width: 14, height: 14 }}>
+                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      Export JSON
+                    </button>
+                    <button
+                      type="button"
                       onClick={() => handleSelectArticle(art)}
                       style={{
                         padding: '8px 14px',
@@ -1256,6 +1385,7 @@ export default function AdminPage() {
                       Edit
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDeleteArticle(art.slug, art.title)}
                       style={{
                         padding: '8px 14px',
@@ -1505,6 +1635,31 @@ export default function AdminPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* EXPORT TOAST NOTIFICATION */}
+      {exportToast && (
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          background: '#064e3b',
+          color: '#fff',
+          padding: '12px 20px',
+          borderRadius: '10px',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.2)',
+          zIndex: 10000,
+          fontSize: '14px',
+          fontWeight: 600,
+          fontFamily: 'var(--font-main)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          animation: 'fadeIn 0.2s ease-out'
+        }}>
+          <span>✅</span>
+          <span>{exportToast}</span>
         </div>
       )}
     </div>
