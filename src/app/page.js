@@ -67,14 +67,6 @@ export default async function Home() {
           </div>
           <span className="nav-item__label">Arsip</span>
         </a>
-        <a href="#" className="nav-item nav-item--ai" id="nav-ai" aria-label="Tanya AI">
-          <div className="nav-item__icon">
-            <svg fill="none" viewBox="0 0 24 24" strokeWidth="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-          </div>
-          <span className="nav-item__label">AI</span>
-        </a>
       </nav>
       */}
     </>

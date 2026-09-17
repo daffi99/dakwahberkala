@@ -139,32 +139,6 @@ export default async function ArtikelPage({ params }) {
             ))}
           </div>
 
-          {/* ASK AI — secondary, after all content */}
-          <div className="ask-ai" id="ask-ai-box">
-            <div className="ask-ai__header">
-              <div className="ask-ai__icon">✨</div>
-              <div className="ask-ai__title">Tanya AI tentang topik ini</div>
-            </div>
-            <p className="ask-ai__subtitle">
-              Punya pertanyaan lanjutan? AI akan membantu berdasarkan sumber yang ada di arsip ini.
-            </p>
-            <div className="ask-ai__input-row">
-              <input
-                className="ask-ai__input"
-                type="text"
-                placeholder="Tanyakan sesuatu..."
-                id="ai-input"
-                aria-label="Tanya AI"
-              />
-              <button className="ask-ai__send" aria-label="Kirim">
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth="2">
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
           {/* BACK TO FEED */}
           <Link href="/" className="btn-back-feed" id="btn-back-feed">
             <svg fill="none" viewBox="0 0 24 24" strokeWidth="2">
@@ -206,14 +180,6 @@ export default async function ArtikelPage({ params }) {
           </div>
           <span className="nav-item__label">Arsip</span>
         </Link>
-        <a href="#ask-ai-box" className="nav-item nav-item--ai" id="nav-ai-article" aria-label="Tanya AI">
-          <div className="nav-item__icon">
-            <svg fill="none" viewBox="0 0 24 24" strokeWidth="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-          </div>
-          <span className="nav-item__label">AI</span>
-        </a>
       </nav>
       */}
     </>
