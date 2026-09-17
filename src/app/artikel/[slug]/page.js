@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { getArticleBySlug, getAllSlugs } from '@/lib/db'
 import { notFound } from 'next/navigation'
+import BackButton from '@/app/components/BackButton'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export async function generateStaticParams() {
   return getAllSlugs()
@@ -28,11 +29,7 @@ export default async function ArtikelPage({ params }) {
     <>
       {/* BACK HEADER */}
       <header className="article-header" id="article-header">
-        <Link href="/" className="back-btn" id="btn-back" aria-label="Kembali ke beranda">
-          <svg fill="none" viewBox="0 0 24 24" strokeWidth="2">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </Link>
+        <BackButton />
         <span className="article-header__label">Ringkasan Artikel</span>
         <div style={{ width: 36 }} aria-hidden="true" />
       </header>

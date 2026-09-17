@@ -50,7 +50,9 @@ function mapArticle(dbArticle) {
   }
 }
 
-export async function getArticles() {
+import { cache } from 'react'
+
+export const getArticles = cache(async () => {
   if (!sql) {
     return fallbackArticles
   }
@@ -68,9 +70,9 @@ export async function getArticles() {
     console.error('Error fetching articles from Neon:', err)
     return fallbackArticles
   }
-}
+})
 
-export async function getArticleBySlug(slug) {
+export const getArticleBySlug = cache(async (slug) => {
   if (!sql) {
     return fallbackArticles.find((a) => a.slug === slug) ?? null
   }
@@ -89,9 +91,9 @@ export async function getArticleBySlug(slug) {
     console.error(`Error fetching article by slug "${slug}" from Neon:`, err)
     return fallbackArticles.find((a) => a.slug === slug) ?? null
   }
-}
+})
 
-export async function getAllSlugs() {
+export const getAllSlugs = cache(async () => {
   if (!sql) {
     return fallbackArticles.map((a) => ({ slug: a.slug }))
   }
@@ -106,4 +108,4 @@ export async function getAllSlugs() {
     console.error('Error fetching slugs from Neon:', err)
     return fallbackArticles.map((a) => ({ slug: a.slug }))
   }
-}
+})

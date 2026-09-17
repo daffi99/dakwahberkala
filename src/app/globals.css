@@ -136,6 +136,9 @@ body:not(.admin-body) {
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .back-btn svg { width: 18px; height: 18px; stroke: var(--primary); fill: none; }

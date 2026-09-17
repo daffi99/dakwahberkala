@@ -3,7 +3,7 @@ import { getArticles } from '@/lib/db'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export default async function Home() {
   const articles = await getArticles()
